@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
             <RightSidebar />
           </aside>
 
-          <main className="scrollbar-hide row-start-2 h-full overflow-y-auto scroll-smooth bg-[var(--color-bg)] pb-12 lg:col-start-2 lg:p-4">
+          <main className="scrollbar-hide row-start-2 h-full overflow-y-auto scroll-smooth bg-[var(--color-bg)] lg:col-start-2 lg:p-4">
             {children}
           </main>
 

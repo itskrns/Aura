@@ -46,7 +46,7 @@ export default function PostsCard({
   }
 
   return (
-    <div className="mb-4 grid grid-rows-[auto_1fr_auto] border-b border-[var(--color-border)] lg:mx-auto lg:w-[70%] lg:rounded-lg lg:border lg:shadow-sm">
+    <div className="mb-4 grid grid-rows-[auto_1fr_auto] border-b border-[var(--color-border)] bg-[var(--color-light)] lg:mx-auto lg:w-[70%] lg:rounded-lg lg:border lg:shadow-sm">
       <div className="flex items-center gap-2 p-2">
         <ProfilePhoto size={30} src={profilePic} />
         <p className="text-sm font-semibold">{username}</p>
