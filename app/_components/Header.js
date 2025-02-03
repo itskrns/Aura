@@ -8,17 +8,11 @@ export default function Header() {
     <div className="flex items-center justify-between border-b-[1px] border-[var(--color-border)] bg-transparent px-4">
       <Logo />
 
-      <span className="hidden lg:block">
-        <SearchBox />
-      </span>
+      <SearchBox />
 
-      <span>
-        <span className="flex items-center gap-2">
-          <ToggleTheme />
-          <span className="hidden lg:block">
-            <SignOutButton />
-          </span>
-        </span>
+      <span className="flex items-center gap-2">
+        <ToggleTheme />
+        <SignOutButton />
       </span>
     </div>
   );

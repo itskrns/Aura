@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <div className="grid h-screen grid-rows-[auto_1fr_auto] lg:grid-cols-[18rem_1fr_20rem] lg:grid-rows-[auto_1fr]">
-          <header className="col-start-1 row-start-1 lg:col-span-3">
+          <header className="col-start-1 row-start-1 hidden lg:col-span-3 lg:block">
             <Header />
           </header>
 
