@@ -8,7 +8,7 @@ export default function LeftSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="mt-2 flex h-screen flex-col gap-1 px-4">
+    <aside className="mt-2 flex h-screen flex-col gap-1 px-4">
       <span
         className={`static ${pathname === '/account' ? 'hidden' : ''} my-4`}
       >
@@ -21,6 +21,6 @@ export default function LeftSidebar() {
       <span className="scrollbar-hide flex-1 overflow-y-auto scroll-smooth">
         <SuggestionsCardMini />
       </span>
-    </div>
+    </aside>
   );
 }

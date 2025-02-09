@@ -11,7 +11,7 @@ import {
   WrenchIcon,
 } from '@heroicons/react/24/solid';
 
-export default function Footer() {
+export default function FooterMenu() {
   const pathname = usePathname();
 
   return (
@@ -41,9 +41,9 @@ export default function Footer() {
           />
         </Link>
 
-        <Link href="account">
+        <Link href="profile">
           <UserIcon
-            className={`size-6 ${pathname === '/account' ? 'text-secondary-600' : ''} cursor-pointer transition-all duration-200`}
+            className={`size-6 ${pathname === '/profile' ? 'text-secondary-600' : ''} cursor-pointer transition-all duration-200`}
           />
         </Link>
       </nav>

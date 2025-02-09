@@ -5,7 +5,7 @@ import SignOutButton from './SignOutButton';
 
 export default function Header() {
   return (
-    <div className="flex items-center justify-between border-b-[1px] border-[var(--color-border)] bg-transparent px-4">
+    <header className="flex items-center justify-between border-b-[1px] border-[var(--color-border)] bg-transparent px-4">
       <Logo />
 
       <SearchBox />
@@ -14,6 +14,6 @@ export default function Header() {
         <ToggleTheme />
         <SignOutButton />
       </span>
-    </div>
+    </header>
   );
 }

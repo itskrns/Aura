@@ -1,4 +1,4 @@
-import Footer from './_components/Footer';
+import FooterMenu from './_components/FooterMenu';
 import Header from './_components/Header';
 import LeftSidebar from './_components/LeftSidebar';
 import RightSidebar from './_components/RightSidebar';
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
           </aside>
 
           <footer className="fixed bottom-0 left-0 right-0 z-10 row-start-3 lg:hidden">
-            <Footer />
+            <FooterMenu />
           </footer>
         </div>
       </body>

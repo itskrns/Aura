@@ -18,8 +18,8 @@ const menuItems = [
     icon: <HomeIcon className="size-4 text-secondary-600" />,
   },
   {
-    name: 'Account',
-    href: '/account',
+    name: 'Profile',
+    href: '/profile',
     icon: <UserIcon className="size-4 text-secondary-600" />,
   },
   {
