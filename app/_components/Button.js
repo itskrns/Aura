@@ -3,7 +3,7 @@ export default function Button({
   label,
   onClick,
   type = 'button',
-  disabled = 'false',
+  disabled,
   styles,
 }) {
   return (
