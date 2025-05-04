@@ -1,3 +1,5 @@
+import AddPhotos from '../_components/AddPhotos';
+
 export default function page() {
-  return <div>Add Post</div>;
+  return <AddPhotos />;
 }

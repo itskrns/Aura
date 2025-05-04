@@ -22,15 +22,15 @@ export default function SuggestionsCardMini() {
         {profiles.map((profile) => {
           return (
             <div
-              className="mb-2 flex w-full items-center justify-between rounded-md bg-[var(--color-primary)] px-3 py-1 text-[var(--color-light)] shadow-md transition-all duration-200 hover:-translate-y-1"
+              className="mb-2 flex w-full items-center justify-between rounded-md bg-[var(--color-light)] px-3 py-1 text-[var(--color-light)] shadow-md transition-all duration-200 hover:-translate-y-1"
               key={profile.username}
             >
               <span className="flex items-center gap-1">
                 <ProfilePhoto src={profile.photo} size={40} />
-                <h6 className="">{profile.username}</h6>
+                <h6 className="text-[var(--color-dark)]">{profile.username}</h6>
               </span>
 
-              <button className="flex items-center gap-1 rounded bg-[var(--color-secondary)] px-2 py-1 text-sm hover:bg-[var(--color-light)] hover:text-[var(--color-dark)]">
+              <button className="flex items-center gap-1 rounded bg-[var(--color-secondary)] px-2 py-1 text-sm hover:bg-[var(--color-dark)] hover:text-[var(--color-secondary)]">
                 Connect <PlusIcon className="size-4" />
               </button>
             </div>
