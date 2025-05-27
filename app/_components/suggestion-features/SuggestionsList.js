@@ -9,16 +9,16 @@ export default function SuggestionsList({ curUser }) {
   if (suggestions.length === 0) return;
 
   return (
-    <>
+    <span>
       <h3 className="text-sm text-[var(--color-secondary)]">
         Suggested Profiles
       </h3>
 
-      <span className="scrollbar-hide flex-1 cursor-pointer overflow-y-auto scroll-smooth rounded-md pb-[4rem] pt-2">
-        {suggestions.map((profile) => {
-          profile.username && <List profile={profile} key={profile.id} />;
-        })}
-      </span>
-    </>
+      <div className="scrollbar-hide flex-1 cursor-pointer overflow-y-auto scroll-smooth rounded-md pb-[4rem] pt-2">
+        {suggestions.map((profile) => (
+          <List profile={profile} key={profile.id} />
+        ))}
+      </div>
+    </span>
   );
 }

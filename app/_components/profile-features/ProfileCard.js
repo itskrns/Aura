@@ -25,7 +25,7 @@ export default function ProfileCard({ curUser }) {
         </button>
         <span className="border-[1px] border-secondary-600"></span>
         <button className="text-sm hover:text-[var(--color-hover)]">
-          Followings
+          Following
           <br />
           {followings}
         </button>

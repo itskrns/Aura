@@ -1,35 +1,52 @@
 import { useState, useEffect } from 'react';
 import { followUser, unfollowUser, isFollowing } from '@/app/_services/actions';
-import { useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 
-export function useFollowAction(profileId) {
-  const { data: session } = useSession();
+export function useFollowAction(userId) {
+  const params = useParams();
   const [following, setFollowing] = useState(false);
-  const isOwnProfile = session?.user?.userId === profileId;
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   useEffect(() => {
-    if (!isOwnProfile && session?.user?.userId && profileId) {
-      isFollowing({ followerId: session.user.userId, followingId: profileId })
-        .then(setFollowing)
-        .catch(() => setFollowing(false));
+    async function checkFollowStatus() {
+      if (params?.userId === userId) {
+        setIsOwnProfile(true);
+        return;
+      }
+
+      setIsOwnProfile(false);
+
+      const followed = await isFollowing({
+        followerId: params.userId,
+        followingId: userId,
+      });
+      setFollowing(followed);
     }
-  }, [session?.user?.userId, profileId, isOwnProfile]);
 
-  const handleFollow = async () => {
-    await followUser({
-      followerId: session.user.userId,
-      followingId: profileId,
-    });
-    setFollowing(true);
-  };
+    checkFollowStatus();
+  }, [params?.userId, userId]);
 
-  const handleUnfollow = async () => {
-    await unfollowUser({
-      followerId: session.user.userId,
-      followingId: profileId,
+  async function handleFollow() {
+    const alreadyFollowing = await isFollowing({
+      followerId: params.userId,
+      followingId: userId,
     });
+
+    if (!alreadyFollowing) {
+      await followUser({ followerId: params.userId, followingId: userId });
+      setFollowing(true);
+    }
+  }
+
+  async function handleUnfollow() {
+    await unfollowUser({ followerId: params.userId, followingId: userId });
     setFollowing(false);
-  };
+  }
 
-  return { following, handleFollow, handleUnfollow, isOwnProfile };
+  return {
+    following,
+    handleFollow,
+    handleUnfollow,
+    isOwnProfile,
+  };
 }

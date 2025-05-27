@@ -2,6 +2,7 @@
 
 import { useProfileStats } from '@/app/_hooks/useProfileStats';
 import { useFollowAction } from '@/app/_hooks/useFollowAction';
+import { useNavigation } from '@/app/_hooks/useNavigation';
 import FollowButton from '../ui/FollowButton';
 
 export default function ProfileStats({ curUser }) {
@@ -9,6 +10,8 @@ export default function ProfileStats({ curUser }) {
 
   const { following, handleFollow, handleUnfollow, isOwnProfile } =
     useFollowAction(curUser.id);
+
+  const { goToFollowers, goToFollowings } = useNavigation();
 
   return (
     <div className="col-start-2 row-start-3 mt-4">
@@ -20,13 +23,19 @@ export default function ProfileStats({ curUser }) {
           <span className="text-xs capitalize">Posts</span>
         </button>
 
-        <button className="hover:text-[var(--color-hover)]">
+        <button
+          className="hover:text-[var(--color-hover)]"
+          onClick={goToFollowers}
+        >
           <span className="text-sm">{followers}</span>
           <br />
           <span className="text-xs capitalize">Followers</span>
         </button>
 
-        <button className="hover:text-[var(--color-hover)]">
+        <button
+          className="hover:text-[var(--color-hover)]"
+          onClick={goToFollowings}
+        >
           <span className="text-sm">{followings}</span>
           <br />
           <span className="text-xs capitalize">Following</span>
@@ -34,15 +43,13 @@ export default function ProfileStats({ curUser }) {
       </span>
 
       {/* Follow/Unfollow Button */}
-      {!isOwnProfile && (
-        <div className="mt-2 flex justify-start">
-          {following ? (
-            <FollowButton onClick={handleUnfollow} isFollowing={following} />
-          ) : (
-            <FollowButton onClick={handleFollow} isFollowing={following} />
-          )}
-        </div>
-      )}
+      <div className="mt-2 flex justify-start">
+        {following ? (
+          <FollowButton onClick={handleUnfollow} isFollowing={following} />
+        ) : (
+          <FollowButton onClick={handleFollow} isFollowing={following} />
+        )}
+      </div>
     </div>
   );
 }

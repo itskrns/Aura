@@ -1,7 +1,7 @@
-import HomeFeed from '@/app/_components/homeFeed-features/HomeFeed';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import FollowingList from '@/app/_components/ui/FollowingList';
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -13,5 +13,5 @@ export default async function Page() {
 
   const curUser = await getUser(session.user.email);
 
-  return <HomeFeed curUser={curUser} />;
+  return <FollowingList curUser={curUser} />;
 }

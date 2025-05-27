@@ -1,18 +1,20 @@
-import { getSession } from '@/app/_lib/getSession';
 import { getUser } from '@/app/_services/actions';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getPostsByUserId } from '@/app/_services/actions';
-import ProfilePage from '@/app/_components/profile-features/ProfilePage';
+import ProfileLayout from '@/app/_components/profile-features/ProfileLayout';
 
 export default async function Page() {
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    return <div>User not Found!!</div>;
+    console.log('User not found!');
+    return null;
   }
 
   const curUser = await getUser(session.user.email);
 
   const posts = await getPostsByUserId(curUser.id);
 
-  return <ProfilePage curUser={curUser} posts={posts} />;
+  return <ProfileLayout curUser={curUser} posts={posts} />;
 }

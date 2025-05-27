@@ -250,25 +250,27 @@ export async function deletePost(postId) {
   if (error) throw error;
 }
 
-// Like post
+// Like a post
 export async function likePost(postId, userId) {
   const { error } = await supabase
     .from('likes')
     .insert([{ post_id: postId, user_id: userId }]);
+
   if (error) throw error;
 }
 
-// Unlike post
+// Unlike a post
 export async function unlikePost(postId, userId) {
   const { error } = await supabase
     .from('likes')
     .delete()
     .eq('post_id', postId)
     .eq('user_id', userId);
+
   if (error) throw error;
 }
 
-// Get likes count & whether user liked
+// Get likes count & user like status
 export async function getPostLikes(postId, userId) {
   const { count } = await supabase
     .from('likes')
@@ -284,11 +286,12 @@ export async function getPostLikes(postId, userId) {
   return { count: count || 0, liked: liked && liked.length > 0 };
 }
 
-// Add comment
+// Add a comment
 export async function addComment(postId, userId, text) {
   const { error } = await supabase
     .from('comments')
     .insert([{ post_id: postId, user_id: userId, text }]);
+
   if (error) throw error;
 }
 
@@ -299,17 +302,41 @@ export async function getPostComments(postId) {
     .select('*, users(username, profilePhoto)')
     .eq('post_id', postId)
     .order('created_at', { ascending: false });
+
   if (error) return [];
   return data;
 }
 
+// Delete a comment
 export async function deleteComment(commentId) {
   const { error } = await supabase
     .from('comments')
     .delete()
     .eq('id', commentId);
 
-  if (error) {
-    console.error('Error deleting comment:', error.message);
-  }
+  if (error) console.error('Error deleting comment:', error.message);
+}
+
+// Get followers list with user details
+export async function getFollowers(userId) {
+  const { data, error } = await supabase
+    .from('follows')
+    .select('follower_id, users:id, users:username, users:profilePhoto')
+    .eq('following_id', userId)
+    .order('users.username', { ascending: true });
+
+  if (error) throw error;
+  return data;
+}
+
+// Get following list with user details
+export async function getFollowing(userId) {
+  const { data, error } = await supabase
+    .from('follows')
+    .select('following_id, users:id, users:username, users:profilePhoto')
+    .eq('follower_id', userId)
+    .order('users.username', { ascending: true });
+
+  if (error) throw error;
+  return data;
 }

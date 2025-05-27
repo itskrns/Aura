@@ -1,4 +1,4 @@
-import HomeFeed from '@/app/_components/homeFeed-features/HomeFeed';
+import PostPreview from '@/app/_components/post-features/PostPreview';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -13,5 +13,5 @@ export default async function Page() {
 
   const curUser = await getUser(session.user.email);
 
-  return <HomeFeed curUser={curUser} />;
+  return <PostPreview curUser={curUser} />;
 }
