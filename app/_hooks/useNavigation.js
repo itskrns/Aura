@@ -8,11 +8,11 @@ export function useNavigation() {
   }
 
   function goToFollowers(userId) {
-    router.push(`/account/${userId}/followers`);
+    router.push(`/account/userProfile/followers`);
   }
 
   function goToFollowings(userId) {
-    router.push(`/account/${userId}/following`);
+    router.push(`/account/userProfile/following`);
   }
 
   function goToPostPreview(page, postId) {
