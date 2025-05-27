@@ -1,6 +1,6 @@
 'use client';
 
-import CloseButton from './CloseButton';
+import CloseButton from '../ui/CloseButton';
 import PostCard from '../post-features/PostCard';
 import { useState } from 'react';
 import { usePostPreview } from '@/app/_hooks/usePostPreview';
