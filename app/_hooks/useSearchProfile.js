@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function useSearchProfile(userId) {
-  const [profileData, setProfileData] = useState(null);
+  const [searchedUser, setSearchedUser] = useState(null);
 
   useEffect(
     function () {
@@ -12,7 +12,7 @@ export default function useSearchProfile(userId) {
           let res = await fetch(`/api/search-user-data/${userId}`);
           let data = await res.json();
 
-          setProfileData(data);
+          setSearchedUser(data);
         } catch (error) {
           console.error('Error fetching profile', error);
         }
@@ -23,5 +23,5 @@ export default function useSearchProfile(userId) {
     [userId],
   );
 
-  return profileData;
+  return searchedUser;
 }

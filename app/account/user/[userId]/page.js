@@ -1,7 +1,7 @@
+import ListPreview from '@/app/_components/ui/ListPreview';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import FollowersList from '@/app/_components/ui/FollowersList';
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -13,5 +13,5 @@ export default async function Page() {
 
   const curUser = await getUser(session.user.email);
 
-  return <FollowersList curUser={curUser} />;
+  return <ListPreview curUser={curUser} />;
 }

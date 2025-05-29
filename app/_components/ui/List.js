@@ -6,7 +6,12 @@ import DeleteButton from './DeleteButton';
 import FollowButton from './FollowButton';
 import { useNavigation } from '@/app/_hooks/useNavigation';
 
-export default function List({ profile, isSearch = false, onBtnClick }) {
+export default function List({
+  profile,
+  isSearch = false,
+  onBtnClick,
+  userId,
+}) {
   const { goToUserProfile } = useNavigation();
 
   return (
@@ -19,11 +24,11 @@ export default function List({ profile, isSearch = false, onBtnClick }) {
         <h6 className="text-[var(--color-dark)]">{profile.username}</h6>
       </span>
 
-      {isSearch ? (
-        <DeleteButton onClick={() => onBtnClick(profile.id)} />
-      ) : (
-        <FollowButton />
+      {!isSearch && (
+        <FollowButton followerId={userId} followingId={profile.id} />
       )}
+
+      <DeleteButton onClick={() => onBtnClick(profile.id)} />
     </div>
   );
 }

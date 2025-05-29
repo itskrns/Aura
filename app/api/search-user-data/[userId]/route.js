@@ -6,7 +6,7 @@ export async function GET(req, context) {
 
   const { data, error } = await supabase
     .from('users')
-    .select('*')
+    .select(`*`)
     .eq('id', userId)
     .single();
 

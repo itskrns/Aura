@@ -157,32 +157,49 @@ export async function uploadProfilePhoto({ file, userId }) {
   return avatarUrl;
 }
 
-// Follow user
-export async function followUser({ followerId, followingId }) {
-  const { error } = await supabase
-    .from('follows')
-    .insert([{ follower_id: followerId, following_id: followingId }]);
+export async function followUser(followerId, followingId) {
+  if (!followerId || !followingId)
+    throw new Error('Invalid followerId or followingId');
+
+  console.log(`From server: ${followerId}, ${followingId}`);
+
+  const { error } = await supabase.from('follows').insert([
+    {
+      follower_id: parseInt(followerId, 10),
+      following_id: parseInt(followingId, 10),
+    },
+  ]);
+
   if (error) throw error;
 }
 
-// Unfollow user
-export async function unfollowUser({ followerId, followingId }) {
+export async function unfollowUser(followerId, followingId) {
+  if (!followerId || !followingId)
+    throw new Error('Invalid followerId or followingId');
+
+  console.log(`From server: ${followerId}, ${followingId}`);
+
   const { error } = await supabase
     .from('follows')
     .delete()
-    .eq('follower_id', followerId)
-    .eq('following_id', followingId);
+    .eq('follower_id', parseInt(followerId, 10))
+    .eq('following_id', parseInt(followingId, 10));
+
   if (error) throw error;
 }
 
-// Check if following
-export async function isFollowing({ followerId, followingId }) {
+export async function isFollowing(followerId, followingId) {
+  if (!followerId || !followingId) return false;
+
+  console.log(`From server: ${followerId}, ${followingId}`);
+
   const { data, error } = await supabase
     .from('follows')
     .select('id')
-    .eq('follower_id', followerId)
-    .eq('following_id', followingId)
+    .eq('follower_id', parseInt(followerId, 10))
+    .eq('following_id', parseInt(followingId, 10))
     .single();
+
   if (error && error.code !== 'PGRST116') throw error;
   return !!data;
 }
@@ -287,10 +304,14 @@ export async function getPostLikes(postId, userId) {
 }
 
 // Add a comment
-export async function addComment(postId, userId, text) {
-  const { error } = await supabase
-    .from('comments')
-    .insert([{ post_id: postId, user_id: userId, text }]);
+export async function addComment(postId, userId, comment) {
+  const { error } = await supabase.from('comments').insert([
+    {
+      post_id: postId,
+      user_id: userId,
+      content: comment,
+    },
+  ]);
 
   if (error) throw error;
 }
@@ -317,26 +338,38 @@ export async function deleteComment(commentId) {
   if (error) console.error('Error deleting comment:', error.message);
 }
 
-// Get followers list with user details
 export async function getFollowers(userId) {
   const { data, error } = await supabase
     .from('follows')
-    .select('follower_id, users:id, users:username, users:profilePhoto')
-    .eq('following_id', userId)
-    .order('users.username', { ascending: true });
+    .select(
+      `
+      follower_id,
+      users!fk_follower(id, username, profilePhoto)
+    `,
+    )
+    .eq('following_id', userId);
 
-  if (error) throw error;
+  if (error) {
+    console.error('Supabase Error:', error.message);
+    throw error;
+  }
   return data;
 }
 
-// Get following list with user details
 export async function getFollowing(userId) {
   const { data, error } = await supabase
     .from('follows')
-    .select('following_id, users:id, users:username, users:profilePhoto')
-    .eq('follower_id', userId)
-    .order('users.username', { ascending: true });
+    .select(
+      `
+      following_id,
+      users!fk_following(id, username, profilePhoto)
+    `,
+    )
+    .eq('follower_id', userId);
 
-  if (error) throw error;
+  if (error) {
+    console.error('Supabase Error:', error.message);
+    throw error;
+  }
   return data;
 }

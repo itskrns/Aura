@@ -17,3 +17,9 @@ export function timeAgo(dateString) {
   const years = Math.floor(days / 365);
   return `${years} year${years > 1 ? 's' : ''} ago`;
 }
+
+export function sortPosts(arr1, arr2) {
+  return [...arr1, ...arr2].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at),
+  );
+}

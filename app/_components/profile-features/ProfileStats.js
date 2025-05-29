@@ -1,17 +1,15 @@
 'use client';
 
 import { useProfileStats } from '@/app/_hooks/useProfileStats';
-import { useFollowAction } from '@/app/_hooks/useFollowAction';
 import { useNavigation } from '@/app/_hooks/useNavigation';
 import FollowButton from '../ui/FollowButton';
 
-export default function ProfileStats({ curUser }) {
+export default function ProfileStats({ curUser, userId }) {
+  const isOwnProfile = curUser?.id === userId;
+
   const { followers, followings, postCount } = useProfileStats(curUser.id);
 
-  const { following, handleFollow, handleUnfollow, isOwnProfile } =
-    useFollowAction(curUser.id);
-
-  const { goToFollowers, goToFollowings } = useNavigation();
+  const { goToFollowers, goToFollowing } = useNavigation();
 
   return (
     <div className="col-start-2 row-start-3 mt-4">
@@ -34,7 +32,7 @@ export default function ProfileStats({ curUser }) {
 
         <button
           className="hover:text-[var(--color-hover)]"
-          onClick={goToFollowings}
+          onClick={goToFollowing}
         >
           <span className="text-sm">{followings}</span>
           <br />
@@ -43,13 +41,11 @@ export default function ProfileStats({ curUser }) {
       </span>
 
       {/* Follow/Unfollow Button */}
-      <div className="mt-2 flex justify-start">
-        {following ? (
-          <FollowButton onClick={handleUnfollow} isFollowing={following} />
-        ) : (
-          <FollowButton onClick={handleFollow} isFollowing={following} />
-        )}
-      </div>
+      {!isOwnProfile && (
+        <div className="mt-2 flex justify-start">
+          <FollowButton followingId={curUser.id} followerId={userId} />
+        </div>
+      )}
     </div>
   );
 }

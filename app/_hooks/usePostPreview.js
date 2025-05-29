@@ -17,7 +17,7 @@ export function usePostPreview(postId) {
             *,
             users(username, profilePhoto),
             likes(count),
-            comments(id, content, user_id)
+            comments(*)
           `,
             )
             .eq('id', postId)

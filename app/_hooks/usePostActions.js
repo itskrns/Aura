@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import {
   likePost,
   unlikePost,
+  deleteComment,
   addComment,
+  getPostLikes,
   getPostComments,
 } from '@/app/_services/actions';
 
@@ -11,17 +13,39 @@ export function usePostActions(postId, curUserId) {
   const [likesCount, setLikesCount] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
+  const [allComments, setAllComments] = useState([]);
 
   // Fetch initial post data
   useEffect(() => {
-    async function fetchPostData() {
-      if (!postId || !curUserId) return;
-      const postComments = await getPostComments(postId);
-      setComments(postComments || []);
+    async function fetchData() {
+      if (postId && curUserId) {
+        const { count, liked } = await getPostLikes(postId, curUserId);
+        setLikesCount(count);
+        setLiked(liked);
+      }
+      if (postId) {
+        const comm = await getPostComments(postId);
+        setAllComments(comm || []);
+      }
     }
-    fetchPostData();
+    fetchData();
   }, [postId, curUserId]);
+
+  // Auto-show comments when new comment is added
+  useEffect(() => {
+    setShowComments(allComments.length > 0);
+  }, [allComments]);
+
+  function handleShowComments() {
+    setShowComments((prev) => !prev);
+  }
+
+  async function handleDeleteComment(commentId) {
+    await deleteComment(commentId);
+    setAllComments((prevComments) =>
+      prevComments.filter((_, index) => index !== commentId),
+    );
+  }
 
   async function handleLikeClick() {
     if (!postId || !curUserId) return;
@@ -39,15 +63,15 @@ export function usePostActions(postId, curUserId) {
     }
   }
 
-  async function handleAddComment(e) {
-    e.preventDefault();
+  async function handleAddComment() {
     if (!comment.trim() || !postId || !curUserId) return;
     try {
       await addComment(postId, curUserId, comment);
+      setAllComments((prev) => [
+        ...prev,
+        { username: { username }, content: comment },
+      ]);
       setComment('');
-      setShowComments(true);
-      const updatedComments = await getPostComments(postId);
-      setComments(updatedComments || []);
     } catch (error) {
       console.error('Error adding comment:', error);
     }
@@ -56,12 +80,13 @@ export function usePostActions(postId, curUserId) {
   return {
     liked,
     likesCount,
-    showComments,
     comment,
-    comments,
     setComment,
-    handleLikeClick,
+    allComments,
+    showComments,
+    handleDeleteComment,
+    handleShowComments,
     handleAddComment,
-    setShowComments,
+    handleLikeClick,
   };
 }

@@ -4,7 +4,7 @@ import List from '../ui/List';
 import { useSuggestions } from '@/app/_hooks/useSuggestions';
 
 export default function SuggestionsList({ curUser }) {
-  const { suggestions } = useSuggestions(curUser.id);
+  const { suggestions } = useSuggestions(curUser?.id);
 
   if (suggestions.length === 0) return;
 

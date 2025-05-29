@@ -4,25 +4,25 @@ export function useNavigation() {
   const router = useRouter();
 
   function goToUserProfile(userId) {
-    router.push(`/account/search/${userId}`);
+    router.push(`/account/user/${userId}`);
   }
 
-  function goToFollowers(userId) {
-    router.push(`/account/userProfile/followers`);
+  function goToFollowers() {
+    router.push(`/account/user/followers`);
   }
 
-  function goToFollowings(userId) {
-    router.push(`/account/userProfile/following`);
+  function goToFollowing() {
+    router.push(`/account/user/following`);
   }
 
-  function goToPostPreview(page, postId) {
-    router.push(`/account/${page}/postPreview/${postId}`);
+  function goToPostPreview(postId) {
+    router.push(`/account/user/post/${postId}`);
   }
 
   return {
     goToUserProfile,
     goToFollowers,
-    goToFollowings,
+    goToFollowing,
     goToPostPreview,
   };
 }

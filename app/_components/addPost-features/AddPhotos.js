@@ -8,10 +8,10 @@ import PhotoAction from './PhotoAction';
 import { useState } from 'react';
 
 export default function AddPhotos() {
+  const [caption, setCaption] = useState('');
+  const { handleUpload } = usePostCreation();
   const { image, preview, handleFileChange, handleRemoveImage } =
     usePostUpload();
-  const { handleUpload } = usePostCreation();
-  const [caption, setCaption] = useState('');
 
   // Open camera for direct image capture
   const openCamera = () => {

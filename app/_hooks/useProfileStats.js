@@ -7,6 +7,8 @@ export function useProfileStats(userId) {
   const [postCount, setPostCount] = useState(0);
 
   useEffect(() => {
+    if (!userId) return;
+
     async function fetchCounts() {
       try {
         const { count: followersCount } = await supabase
@@ -32,7 +34,31 @@ export function useProfileStats(userId) {
       }
     }
 
-    if (userId) fetchCounts();
+    fetchCounts();
+
+    const subscription = supabase
+      .channel('follows-realtime')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'follows' },
+        (payload) => {
+          console.log('Follow event received:', payload);
+          fetchCounts();
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'follows' },
+        (payload) => {
+          console.log('Unfollow event received:', payload);
+          fetchCounts();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
   }, [userId]);
 
   return { followers, followings, postCount };

@@ -1,19 +1,20 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { deletePost } from '@/app/_services/actions';
 
-export function usePostDelete(postId, postOwnerId, loggedInUserId) {
+export function usePostDelete(postId) {
   const [showMenu, setShowMenu] = useState(false);
 
-  // Function to delete the post
-  const handleDeletePost = async () => {
+  const router = useRouter();
+
+  async function handleDeletePost() {
     await deletePost(postId);
-    window.history.back(); // Refresh page after deletion
-  };
+    router.push('/account');
+  }
 
   return {
     showMenu,
     setShowMenu,
     handleDeletePost,
-    isOwner: loggedInUserId === postOwnerId, // Determines if user can see the menu
   };
 }

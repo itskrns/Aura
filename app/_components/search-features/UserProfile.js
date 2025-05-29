@@ -3,14 +3,12 @@
 import ProfileLayout from '@/app/_components/profile-features/ProfileLayout';
 import { useParams } from 'next/navigation';
 import useSearchProfile from '@/app/_hooks/useSearchProfile';
-import { usePosts } from '@/app/_hooks/usePosts';
 
-export default function UserProfile() {
+export default function UserProfile({ curUser }) {
   const params = useParams();
-  const profileData = useSearchProfile(params.userId);
-  const { userPosts } = usePosts(params.userId);
+  const searchedUser = useSearchProfile(params.userId);
 
-  if (!profileData) return <p>Loading profile...</p>;
+  if (!searchedUser) return <p>Loading profile...</p>;
 
-  return <ProfileLayout curUser={profileData} posts={userPosts} />;
+  return <ProfileLayout searchedUser={searchedUser} sessionUser={curUser} />;
 }

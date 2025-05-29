@@ -6,7 +6,7 @@ export async function GET(req) {
   const id = searchParams.get('id');
   const { data, error } = await supabase
     .from('users')
-    .select('id, username, fullName, profilePhoto, bio')
+    .select('*')
     .eq('id', id)
     .single();
   if (error || !data) return NextResponse.json({}, { status: 404 });

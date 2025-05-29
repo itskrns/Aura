@@ -25,9 +25,7 @@ export function useImgCompress() {
 
       setImage(compressedFile);
       setPreview(URL.createObjectURL(compressedFile));
-      alert(
-        `Image compressed to ${(compressedFile.size / 1024).toFixed(0)} KB.`,
-      );
+      alert(`Image Selected Successfully.`);
     } catch (err) {
       alert('Image compression failed: ' + err.message);
       setImage(null);

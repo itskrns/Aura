@@ -6,7 +6,7 @@ import ProfileStats from './ProfileStats';
 import photo from '@/public/globe.svg';
 import Link from 'next/link';
 
-export default function ProfileInfo({ curUser }) {
+export default function ProfileInfo({ curUser, userId }) {
   return (
     <>
       {/* Username Header */}
@@ -36,7 +36,7 @@ export default function ProfileInfo({ curUser }) {
           {curUser.bio}
         </span>
 
-        <ProfileStats curUser={curUser} />
+        <ProfileStats curUser={curUser} userId={userId} />
       </div>
     </>
   );

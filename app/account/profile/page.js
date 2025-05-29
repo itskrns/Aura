@@ -1,7 +1,6 @@
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getPostsByUserId } from '@/app/_services/actions';
 import ProfileLayout from '@/app/_components/profile-features/ProfileLayout';
 
 export default async function Page() {
@@ -14,7 +13,5 @@ export default async function Page() {
 
   const curUser = await getUser(session.user.email);
 
-  const posts = await getPostsByUserId(curUser.id);
-
-  return <ProfileLayout curUser={curUser} posts={posts} />;
+  return <ProfileLayout sessionUser={curUser} />;
 }
