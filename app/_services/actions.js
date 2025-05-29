@@ -160,8 +160,6 @@ export async function followUser(followerId, followingId) {
   if (!followerId || !followingId)
     throw new Error('Invalid followerId or followingId');
 
-  console.log(`From server: ${followerId}, ${followingId}`);
-
   const { error } = await supabase.from('follows').insert([
     {
       follower_id: parseInt(followerId, 10),
@@ -176,8 +174,6 @@ export async function unfollowUser(followerId, followingId) {
   if (!followerId || !followingId)
     throw new Error('Invalid followerId or followingId');
 
-  console.log(`From server: ${followerId}, ${followingId}`);
-
   const { error } = await supabase
     .from('follows')
     .delete()
@@ -189,8 +185,6 @@ export async function unfollowUser(followerId, followingId) {
 
 export async function isFollowing(followerId, followingId) {
   if (!followerId || !followingId) return false;
-
-  console.log(`From server: ${followerId}, ${followingId}`);
 
   const { data, error } = await supabase
     .from('follows')
@@ -221,33 +215,6 @@ export async function getFollowingCount(userId) {
     .eq('follower_id', userId);
   if (error) throw error;
   return count;
-}
-
-export async function getHomeFeedPosts(userId) {
-  // 1. Get following ids
-  const { data: following } = await supabase
-    .from('follows')
-    .select('following_id')
-    .eq('follower_id', userId);
-
-  const followingIds = following ? following.map((f) => f.following_id) : [];
-  followingIds.push(userId);
-
-  console.log('userId:', userId);
-  console.log('followingIds:', followingIds);
-
-  // 2. Get posts (NO JOIN NEEDED)
-  const { data: posts, error } = await supabase
-    .from('posts')
-    .select('*', 'users(username, profilePhoto)')
-    .in('user_id', followingIds)
-    .order('created_at', { ascending: false });
-
-  console.log('posts:', posts);
-
-  if (error) console.log('error:', error);
-
-  return posts || [];
 }
 
 export async function getPostById(postId) {

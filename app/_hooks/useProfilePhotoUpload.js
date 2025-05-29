@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import photo from '@/public/globe.svg';
 import { uploadProfilePhoto } from '@/app/_services/actions';
 
 export function useProfilePhotoUpload(curUser) {
@@ -10,7 +11,7 @@ export function useProfilePhotoUpload(curUser) {
     if (!image) return alert('Select an image!');
 
     try {
-      await uploadProfilePhoto({ file: image, userId: curUser.id });
+      await uploadProfilePhoto({ file: image || photo, userId: curUser.id });
       alert('Profile photo updated!');
       await update();
       router.push('/account/profile');

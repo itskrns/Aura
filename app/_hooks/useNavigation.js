@@ -4,7 +4,7 @@ export function useNavigation() {
   const router = useRouter();
 
   function goToUserProfile(userId) {
-    router.push(`/account/user/${userId}`);
+    router.push(`/account/search/${userId}`);
   }
 
   function goToFollowers() {

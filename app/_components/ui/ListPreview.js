@@ -11,11 +11,7 @@ export default function ListPreview({ curUser, listData, label }) {
   const [closePreview, setClosePreview] = useState(false);
   const { goToUserProfile } = useNavigation();
 
-  console.log(`Results: ${JSON.stringify(listData[0])}`);
-
-  if (listData.length === 0) {
-    return <div>No data yet!</div>;
-  }
+  if (!listData && !curUser) return;
 
   function handlePreview() {
     setClosePreview(true);
@@ -30,27 +26,27 @@ export default function ListPreview({ curUser, listData, label }) {
           <h2 className="mb-2 text-xl font-semibold text-[--color-secondary]">
             {label}
           </h2>
-          {listData.length !== 0 &&
+          {listData &&
             listData.map((profile) => (
               <>
                 <div
                   className="mb-2 flex w-full cursor-pointer items-center justify-between rounded-md bg-[var(--color-light)] px-3 py-1 text-[var(--color-light)] shadow-md transition-all duration-200 hover:translate-y-1"
-                  onClick={() => goToUserProfile(profile.id)}
+                  onClick={() => goToUserProfile(profile?.id)}
                   key={profile.id}
                 >
                   <span className="flex items-center gap-1">
                     <ProfilePhoto
-                      src={profile.users.profilePhoto || photo}
+                      src={profile?.users?.profilePhoto || photo}
                       size={40}
                     />
                     <h6 className="text-[var(--color-dark)]">
-                      {profile.users.username}
+                      {profile?.users?.username}
                     </h6>
                   </span>
 
                   <FollowButton
                     followerId={curUser?.id}
-                    followingId={profile.id}
+                    followingId={profile?.id}
                   />
                 </div>
               </>

@@ -7,11 +7,14 @@ export default function FollowButton({ followingId, followerId }) {
     followingId,
   );
 
+  if (!followingId && !followerId) return;
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         following ? handleUnfollow() : handleFollow();
+        window.location.reload();
       }}
     >
       <button

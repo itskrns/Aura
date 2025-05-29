@@ -67,10 +67,8 @@ export function usePostActions(postId, curUserId) {
     if (!comment.trim() || !postId || !curUserId) return;
     try {
       await addComment(postId, curUserId, comment);
-      setAllComments((prev) => [
-        ...prev,
-        { username: { username }, content: comment },
-      ]);
+      const comm = await getPostComments(postId);
+      setAllComments((prev) => [...prev, comm]);
       setComment('');
     } catch (error) {
       console.error('Error adding comment:', error);

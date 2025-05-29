@@ -4,7 +4,7 @@ import supabase from '@/app/_lib/supabase';
 
 export function useFollowAction(followerId, followingId) {
   const [following, setFollowing] = useState(false);
-  const [followed, setIsFollowed] = useState(false);
+  const [followed, setFollowed] = useState(false);
 
   useEffect(() => {
     if (!followerId || !followingId) return;
@@ -13,7 +13,7 @@ export function useFollowAction(followerId, followingId) {
       try {
         const status = await isFollowing(followerId, followingId);
         setFollowing(status);
-        setIsFollowed(status);
+        setFollowed(status);
       } catch (error) {
         console.error('Error checking status:', error);
       }
@@ -33,7 +33,7 @@ export function useFollowAction(followerId, followingId) {
             payload.new.following_id === followingId
           ) {
             setFollowing(true);
-            setIsFollowed(true);
+            setFollowed(true);
           }
         },
       )
@@ -47,7 +47,7 @@ export function useFollowAction(followerId, followingId) {
             payload.old.following_id === followingId
           ) {
             setFollowing(false);
-            setIsFollowed(false);
+            setFollowed(false);
           }
         },
       )
@@ -56,7 +56,7 @@ export function useFollowAction(followerId, followingId) {
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, [followerId, followingId]);
+  }, [followerId, followingId, setFollowed]);
 
   async function handleFollow() {
     try {
@@ -79,5 +79,6 @@ export function useFollowAction(followerId, followingId) {
     followed,
     handleFollow,
     handleUnfollow,
+    setFollowed,
   };
 }

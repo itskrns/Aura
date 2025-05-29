@@ -24,11 +24,13 @@ export default function List({
         <h6 className="text-[var(--color-dark)]">{profile.username}</h6>
       </span>
 
-      {!isSearch && (
-        <FollowButton followerId={userId} followingId={profile.id} />
-      )}
+      <span className="flex items-center gap-1">
+        {!isSearch && (
+          <FollowButton followerId={userId} followingId={profile.id} />
+        )}
 
-      <DeleteButton onClick={() => onBtnClick(profile.id)} />
+        <DeleteButton onClick={() => onBtnClick(profile.id)} />
+      </span>
     </div>
   );
 }

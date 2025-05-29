@@ -8,6 +8,10 @@ export default function SuggestionsList({ curUser }) {
 
   if (suggestions.length === 0) return;
 
+  const handleRemove = (id) => {
+    return suggestions.filter((profile) => profile.id !== id);
+  };
+
   return (
     <span>
       <h3 className="text-sm text-[var(--color-secondary)]">
@@ -16,7 +20,7 @@ export default function SuggestionsList({ curUser }) {
 
       <div className="scrollbar-hide flex-1 cursor-pointer overflow-y-auto scroll-smooth rounded-md pb-[4rem] pt-2">
         {suggestions.map((profile) => (
-          <List profile={profile} key={profile.id} />
+          <List profile={profile} key={profile.id} onBtnClick={handleRemove} />
         ))}
       </div>
     </span>
