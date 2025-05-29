@@ -4,6 +4,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getFollowing } from '@/app/_services/actions';
 
+export const metadata = {
+  title: 'Following List',
+  description: 'Next Social Media Platform',
+};
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
 

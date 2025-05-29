@@ -3,6 +3,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import ProfileLayout from '@/app/_components/profile-features/ProfileLayout';
 
+export const metadata = {
+  title: 'Profile',
+  description: 'Next Social Media Platform',
+};
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
 

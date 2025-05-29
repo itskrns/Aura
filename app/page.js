@@ -12,7 +12,7 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-8">
-      <p>Connecting Aura...</p>;
+      <p>Connecting Aura...</p>
     </div>
   );
 }

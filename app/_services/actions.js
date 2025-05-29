@@ -26,7 +26,6 @@ export async function createUser(newUser) {
     throw new Error('User could not be created');
   }
 
-  console.log(data);
   return data;
 }
 

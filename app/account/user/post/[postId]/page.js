@@ -3,6 +3,11 @@ import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
+export const metadata = {
+  title: 'See Posts',
+  description: 'Next Social Media Platform',
+};
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
 

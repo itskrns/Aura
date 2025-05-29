@@ -7,7 +7,9 @@ import { sortPosts } from '@/app/_utils/helper';
 export default function HomeFeed({ curUser }) {
   const { followedPosts, userPosts } = usePosts(curUser.id);
 
-  if (!followedPosts && !userPosts) return;
+  if (!followedPosts && !userPosts) {
+    return <p>No Posts yet!</p>;
+  }
 
   const posts = sortPosts(followedPosts, userPosts);
 
