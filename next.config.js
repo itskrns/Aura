@@ -3,6 +3,9 @@ const nextConfig = {
   images: {
     domains: ['odcloekjvtjhchznlmvk.supabase.co'],
   },
+  experimental: {
+    middleware: true, // Middleware support for authentication
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

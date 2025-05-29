@@ -2,7 +2,7 @@ import ListPreview from '@/app/_components/ui/ListPreview';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getFollowers } from '@/app/_services/actions';
+import { getFollowing } from '@/app/_services/actions';
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -14,9 +14,13 @@ export default async function Page() {
 
   const curUser = await getUser(session.user.email);
 
-  const following = await getFollowers(curUser?.id);
+  const following = await getFollowing(curUser?.id);
 
-  console.log(`Following: ${following}, ${curUser.id}`);
-
-  return <ListPreview curUser={curUser} listData={following} />;
+  return (
+    <ListPreview
+      curUser={curUser}
+      listData={following}
+      label="Accounts you Follow"
+    />
+  );
 }

@@ -3,7 +3,7 @@ import supabase from '@/app/_lib/supabase';
 
 export function useProfileStats(userId) {
   const [followers, setFollowers] = useState(0);
-  const [followings, setFollowings] = useState(0);
+  const [following, setFollowing] = useState(0);
   const [postCount, setPostCount] = useState(0);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function useProfileStats(userId) {
           .select('*', { count: 'exact', head: true })
           .eq('following_id', userId);
 
-        const { count: followingsCount } = await supabase
+        const { count: followingCount } = await supabase
           .from('follows')
           .select('*', { count: 'exact', head: true })
           .eq('follower_id', userId);
@@ -27,7 +27,7 @@ export function useProfileStats(userId) {
           .eq('user_id', userId);
 
         setFollowers(followersCount || 0);
-        setFollowings(followingsCount || 0);
+        setFollowing(followingCount || 0);
         setPostCount(postsCount || 0);
       } catch (error) {
         console.error('Error fetching counts:', error);
@@ -61,5 +61,5 @@ export function useProfileStats(userId) {
     };
   }, [userId]);
 
-  return { followers, followings, postCount };
+  return { followers, following, postCount };
 }

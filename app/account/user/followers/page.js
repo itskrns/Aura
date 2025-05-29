@@ -16,7 +16,11 @@ export default async function Page() {
 
   const followers = await getFollowers(curUser?.id);
 
-  console.log(`Followers:${followers}`);
-
-  return <ListPreview curUser={curUser} listData={followers} />;
+  return (
+    <ListPreview
+      curUser={curUser}
+      listData={followers}
+      label={'Accounts Following You'}
+    />
+  );
 }

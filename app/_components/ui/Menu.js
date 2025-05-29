@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import supabase from '@/app/_lib/supabase';
 import {
   BellAlertIcon,
   HomeIcon,
@@ -36,6 +38,7 @@ const menuItems = [
     name: 'Notifications',
     href: '/account/notifications',
     icon: <BellAlertIcon className="size-4 text-secondary-600" />,
+    showCount: true,
   },
   {
     name: 'Settings',
@@ -44,8 +47,44 @@ const menuItems = [
   },
 ];
 
-export default function Menu() {
+export default function Menu({ curUser }) {
   const pathname = usePathname();
+  const [notifCount, setNotifCount] = useState(0);
+  let userId = Number(curUser?.id) || null;
+
+  useEffect(() => {
+    if (!userId) return; // Prevent invalid queries
+
+    async function fetchNotificationCount() {
+      const { count, error } = await supabase
+        .from('notifications')
+        .select('*', { count: 'exact' })
+        .eq('user_id', userId);
+
+      if (error) {
+        console.error('Fetch Error:', error.message);
+        return;
+      }
+      setNotifCount(count);
+    }
+
+    fetchNotificationCount();
+
+    const subscription = supabase
+      .channel('notification_channel')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'notifications' },
+        (payload) => {
+          setNotifCount((prev) => prev + 1);
+        },
+      )
+      .subscribe();
+
+    return () => {
+      if (subscription) supabase.removeChannel(subscription);
+    };
+  }, [userId]);
 
   return (
     <nav className="grid gap-4">
@@ -63,6 +102,11 @@ export default function Menu() {
               style={isActive ? { pointerEvents: 'none' } : {}}
             >
               {link.icon} {link.name}
+              {link.showCount && notifCount > 0 && (
+                <span className="ml-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+                  {notifCount}
+                </span>
+              )}
             </span>
           </Link>
         );

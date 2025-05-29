@@ -2,14 +2,19 @@
 
 import CloseButton from './CloseButton';
 import { useState } from 'react';
-import List from '@/app/_components/ui/List';
+import photo from '@/public/globe.svg';
+import ProfilePhoto from '../profile-features/ProfilePhoto';
+import FollowButton from './FollowButton';
+import { useNavigation } from '@/app/_hooks/useNavigation';
 
-export default function ListPreview({ curUser, listData, type }) {
+export default function ListPreview({ curUser, listData, label }) {
   const [closePreview, setClosePreview] = useState(false);
-  const [results, setResults] = useState(listData);
+  const { goToUserProfile } = useNavigation();
+
+  console.log(`Results: ${JSON.stringify(listData[0])}`);
 
   if (listData.length === 0) {
-    <div>No data yet!</div>;
+    return <div>No data yet!</div>;
   }
 
   function handlePreview() {
@@ -17,23 +22,39 @@ export default function ListPreview({ curUser, listData, type }) {
     window.history.back();
   }
 
-  const handleRemove = (id) => {
-    setResults(results.filter((profile) => profile.id !== id));
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-scroll bg-black/10 backdrop-blur-sm">
       <CloseButton closeModal={handlePreview} />
-      <div className="scrollbar-hide relative flex max-h-[80vh] flex-col overflow-y-auto scroll-smooth rounded-lg bg-white shadow-lg">
-        <div className="flex-grow p-5 text-black">
+      <div className="scrollbar-hide relative flex max-h-[80vh] w-[30vw] flex-col overflow-y-auto scroll-smooth rounded-lg bg-white shadow-lg">
+        <div className="p-3">
+          <h2 className="mb-2 text-xl font-semibold text-[--color-secondary]">
+            {label}
+          </h2>
           {listData.length !== 0 &&
-            listData.map((profile) => {
-              <List
-                profile={profile}
-                curUser={curUser?.id}
-                onBtnClick={handleRemove}
-              />;
-            })}
+            listData.map((profile) => (
+              <>
+                <div
+                  className="mb-2 flex w-full cursor-pointer items-center justify-between rounded-md bg-[var(--color-light)] px-3 py-1 text-[var(--color-light)] shadow-md transition-all duration-200 hover:translate-y-1"
+                  onClick={() => goToUserProfile(profile.id)}
+                  key={profile.id}
+                >
+                  <span className="flex items-center gap-1">
+                    <ProfilePhoto
+                      src={profile.users.profilePhoto || photo}
+                      size={40}
+                    />
+                    <h6 className="text-[var(--color-dark)]">
+                      {profile.users.username}
+                    </h6>
+                  </span>
+
+                  <FollowButton
+                    followerId={curUser?.id}
+                    followingId={profile.id}
+                  />
+                </div>
+              </>
+            ))}
         </div>
       </div>
     </div>

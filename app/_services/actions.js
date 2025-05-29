@@ -343,7 +343,7 @@ export async function getFollowers(userId) {
     .from('follows')
     .select(
       `
-      follower_id,
+      id:follower_id,
       users!fk_follower(id, username, profilePhoto)
     `,
     )
@@ -361,11 +361,11 @@ export async function getFollowing(userId) {
     .from('follows')
     .select(
       `
-      following_id,
+      id:following_id,
       users!fk_following(id, username, profilePhoto)
     `,
     )
-    .eq('follower_id', userId);
+    .eq('follower_id', parseInt(userId, 10));
 
   if (error) {
     console.error('Supabase Error:', error.message);

@@ -2,9 +2,11 @@
 
 import ProfilePhoto from './ProfilePhoto';
 import { useProfileStats } from '@/app/_hooks/useProfileStats';
+import { useNavigation } from '@/app/_hooks/useNavigation';
 
 export default function ProfileCard({ curUser }) {
-  const { followers, followings } = useProfileStats(curUser.id);
+  const { followers, following } = useProfileStats(curUser.id);
+  const { goToFollowers, goToFollowing } = useNavigation();
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-3 rounded-md bg-[var(--color-primary)] p-4 text-[var(--color-light)] shadow-md">
@@ -18,16 +20,22 @@ export default function ProfileCard({ curUser }) {
       </span>
 
       <span className="flex gap-4 text-center">
-        <button className="text-sm hover:text-[var(--color-hover)]">
+        <button
+          className="text-sm hover:text-[var(--color-hover)]"
+          onClick={goToFollowers}
+        >
           Followers
           <br />
           {followers}
         </button>
         <span className="border-[1px] border-secondary-600"></span>
-        <button className="text-sm hover:text-[var(--color-hover)]">
+        <button
+          className="text-sm hover:text-[var(--color-hover)]"
+          onClick={goToFollowing}
+        >
           Following
           <br />
-          {followings}
+          {following}
         </button>
       </span>
     </div>
