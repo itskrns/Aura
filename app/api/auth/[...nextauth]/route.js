@@ -60,6 +60,9 @@ const authOptions = {
   pages: {
     signIn: '/auth',
   },
+  session: {
+    strategy: 'jwt',
+  },
 };
 
 // API Route Handlers
