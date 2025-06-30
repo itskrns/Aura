@@ -16,7 +16,7 @@ export default function ProfileStats({ curUser, userId }) {
       {/* Posts, Followers, Following */}
       <span className="flex gap-4 py-2">
         <button className="hover:text-[var(--color-hover)]">
-          <span className="text-sm">{postCount}</span>
+          <span className="text-sm">{postCount || 0}</span>
           <br />
           <span className="text-xs capitalize">Posts</span>
         </button>
@@ -25,7 +25,7 @@ export default function ProfileStats({ curUser, userId }) {
           className="hover:text-[var(--color-hover)]"
           onClick={goToFollowers}
         >
-          <span className="text-sm">{followers}</span>
+          <span className="text-sm">{followers || 0}</span>
           <br />
           <span className="text-xs capitalize">Followers</span>
         </button>
@@ -34,7 +34,7 @@ export default function ProfileStats({ curUser, userId }) {
           className="hover:text-[var(--color-hover)]"
           onClick={goToFollowing}
         >
-          <span className="text-sm">{followings}</span>
+          <span className="text-sm">{followings || 0}</span>
           <br />
           <span className="text-xs capitalize">Following</span>
         </button>

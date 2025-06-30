@@ -4,9 +4,11 @@ import Header from './Header';
 import FooterMenu from './FooterMenu';
 import LeftSidebar from './LeftSidebar';
 import RightSidebar from './RightSidebar';
+import { SessionProvider } from 'next-auth/react';
 
 export default function AppLayout({ curUser, children }) {
   return (
+    <SessionProvider>
       <div className="grid h-screen grid-rows-[auto_1fr_auto] lg:grid-cols-[18rem_1fr_20rem] lg:grid-rows-[auto_1fr]">
         <header className="col-start-1 row-start-1 hidden lg:col-span-3 lg:block">
           <Header />
@@ -28,5 +30,6 @@ export default function AppLayout({ curUser, children }) {
           <FooterMenu />
         </footer>
       </div>
+    </SessionProvider>
   );
 }
