@@ -12,24 +12,47 @@ const authOptions = {
   callbacks: {
     async signIn({ user }) {
       try {
+        if (!user?.email) {
+          console.error('Email not found in user:', user);
+          return false;
+        }
+
         let existingUser = await getUser(user.email);
+        console.log('Fetched user:', existingUser);
 
         if (!existingUser) {
+          console.log('User not found, creating new user...');
           existingUser = await createUser({
             email: user.email,
             fullName: user.name,
           });
+          console.log('User created:', existingUser);
+
+          if (!existingUser || !existingUser.id) {
+            console.error('User creation failed or invalid data returned.');
+            return false;
+          }
+
+          // optional: redirect after sign up
           return '/account/settings';
         }
-        // ENRICH USER OBJECT
+
+        // ✅ Safety check
+        if (!existingUser.id) {
+          console.error('existingUser has no ID:', existingUser);
+          return false;
+        }
+
+        // enrich user
         user.id = existingUser.id;
         user.username = existingUser.username;
         user.fullName = existingUser.fullName;
         user.bio = existingUser.bio;
         user.email = existingUser.email;
+
         return true;
       } catch (err) {
-        console.error('Error in signIn callback:', err);
+        console.error('signIn error:', err);
         return false;
       }
     },
