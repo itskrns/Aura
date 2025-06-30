@@ -1,7 +1,7 @@
 import UserProfile from '@/app/_components/search-features/UserProfile';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/_lib/authOptions';
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
