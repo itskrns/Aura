@@ -2,7 +2,7 @@ import SearchPageLayout from '@/app/_components/search-features/SearchPageLayout
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
 import { getPostsByUserId } from '@/app/_services/actions';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/_lib/authOptions';
 
 export const metadata = {
   title: 'Search Page',

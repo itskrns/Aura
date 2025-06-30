@@ -1,7 +1,7 @@
 import PostPreview from '@/app/_components/post-features/PostPreview';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/_lib/authOptions';
 
 export const metadata = {
   title: 'See Posts',

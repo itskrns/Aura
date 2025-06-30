@@ -1,6 +1,6 @@
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/_lib/authOptions';
 import ProfileLayout from '@/app/_components/profile-features/ProfileLayout';
 
 export const metadata = {

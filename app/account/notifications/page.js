@@ -1,7 +1,7 @@
 import NotificationsList from '@/app/_components/notifications-features/NotificationsList';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/_lib/authOptions';
 
 export const metadata = {
   title: 'Notifications',

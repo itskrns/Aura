@@ -1,7 +1,7 @@
 import ListPreview from '@/app/_components/ui/ListPreview';
 import { getUser } from '@/app/_services/actions';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/_lib/authOptions';
 import { getFollowers } from '@/app/_services/actions';
 
 export const metadata = {
